@@ -17,3 +17,6 @@ This is a [Partykit](https://partykit.io) project, which lets you create real-ti
 
 
 Refer to our docs for more information: https://github.com/partykit/partykit/blob/main/README.md. For more help, reach out to us on [Discord](https://discord.gg/g5uqHQJc3z), [GitHub](https://github.com/partykit/partykit), or [Twitter](https://twitter.com/partykit_io).
+
+## For  API & SSE used  
+OpenRouter AI[https://openrouter.ai/docs/quickstart]
