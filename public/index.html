@@ -17,13 +17,221 @@
     <!-- Theme Colour -->
     <meta name="theme-color" content="#ffffff" />
 
-    <link rel="stylesheet" href="/normalize.css" />
-    <link rel="stylesheet" href="/dist/client.css" />
+    <!---<link rel="stylesheet" href="/normalize.css" />
+    <link rel="stylesheet" href="/dist/client.css" />-->
+     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+     <!--fontawsome cdn-->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+  />
+    
   </head>
-  <body>
-    <div id="app">
-      <h1>🎈 Welcome to PartyKit!</h1>
+  <body class="h-screen overflow-hidden">
+
+    <div class="flex h-full">
+      <!----->
+      <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden"></div>
+
+      <!--sidebar start-->
+      <!------>
+       <section id="sidebar" class="bg-[#0F172A] w-72 md:w-1/4 fixed md:relative h-full z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 overflow-y-auto">
+
+        <!--mobile responsivness -->
+
+        <div class="md:hidden flex justify-between items-center p-4 border-b border-gray-700">
+            <div class="flex items-center">
+                <img src="https://cdn.iconscout.com/icon/free/png-256/free-brain-icon-download-in-svg-png-gif-file-formats--neuroscience-brainstorming-mind-medical-neurology-pack-healthcare-icons-29869.png?f=webp&w=256" class="w-10 h-10">
+                <h3 class="text-white text-xl font-bold ml-2">Brainwave</h3>
+            </div>
+
+                <button id="close-sidebar" class="text-white">
+                  <i class="fas fa-times text-xl"></i>
+              </button>
+        </div>
+
+        <!--mobile responsivness -->
+
+        <!--logo-->
+        <div class="hidden md:flex  flex-row m-2">
+            <img src="https://cdn.iconscout.com/icon/free/png-256/free-brain-icon-download-in-svg-png-gif-file-formats--neuroscience-brainstorming-mind-medical-neurology-pack-healthcare-icons-29869.png?f=webp&w=256" class="w-12 h-12">
+            <h3 class="text-white text-2xl font-bold m-2">Brainwave</h3>
+        </div>
+    
+        <!--icons & others start-->
+    
+        <div class="flex flex-col text-white m-2 p-4 space-y-4">
+    
+            <!--chats-->
+
+            <a href="#" class="flex items-center text-sm space-x-2">
+                <i class="fas fa-comment-alt text-blue-500 text-sm"></i>
+                <span>Chats</span>
+            </a>
+
+            <!-- Search -->
+
+            <a href="#" class="flex items-center text-sm space-x-2 ">
+                <i class="fas fa-search text-green-400 text-sm"></i>
+                <span>Search</span>
+            </a>
+    
+            <!--manage subscription-->
+
+            <a href="#" class="flex items-center text-sm space-x-2">
+                <i class="fas fa-crown text-yellow-500 text-sm"></i>
+                <span>Subscription</span>
+            </a>
+    
+            <!-- Updates & FAQ -->
+
+            <a href="#" class="flex items-center text-sm space-x-2">
+                <i class="fas fa-info-circle text-green-500 text-sm"></i>
+                <span>Updates & FAQ</span>
+            </a>
+    
+            <!-- Settings -->
+
+            <a href="#" class="flex items-center  text-sm space-x-2">
+                <i class="fas fa-cog text-purple-400 text-sm"></i>
+                <span>Settings</span>
+            </a>
+
+        </div>
+    
+        <!--icons and option end-->
+    
+        <!--2nd section start-->
+    
+       <div class="p-4 text-white border-gray-800 space-y-2">
+    
+        <div class="flex flex-col space-y-4">
+
+          <!--chat list-->
+
+            <a href="#" class="flex items-center  text-sm  space-x-2">
+                <i class="fa-solid fa-caret-down"></i>
+                <p>Chat list</p>
+            </a>
+
+            <!--welcome -->
+
+            <a href="#" class="flex items-center  text-sm  space-x-2 ">
+                <i class="fa-solid fa-square text-gray-500"></i>
+                <p>Welcome</p>
+            </a>
+
+            <!--UI8 production-->
+
+            <a href="#" class="flex items-center  text-sm  space-x-2">
+                <i class="fa-solid fa-square text-purple-500"></i>
+                <p>UI8 Production</p>
+            </a>
+
+            <!--favorties-->
+
+            <a href="#" class="flex items-center  text-sm space-x-2 ">
+                <i class="fa-solid fa-square text-blue-500"></i>
+                <p>Favorites</p>
+            </a>
+
+           <!--archived-->
+
+           <a href="#" class="flex items-center  text-sm  space-x-2 ">
+            <i class="fa-solid fa-square text-orange-500"></i>
+            <p>Archived</p>
+           </a>
+
+           <!--new list-->
+
+           <a href="#" class="flex items-center  text-sm  space-x-2">
+            <i class="fa-solid fa-circle-plus text-sm text-gray-400"></i>
+            <p>New list</p>
+           </a>
+
+        </div>
+       </div>
+       <!--2nd section end-->
+
+       
+</section>
+
+<section class="flex flex-col flex-1 h-screen overflow-y-auto dark:bg-dark-200">
+
+<div class="p-2 border-b md:space-x-4">
+
+  <button id="open-sidebar" class="md:hidden text-black hover:text-gray-300">
+    <i class="fa-solid fa-bars"></i> 
+  </button>
+
+  <button id="dropdownToggle" class="w-[200px] justify-between inline-flex items-center rounded-md bg-blue-500 px-2 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none">
+    Choose Your AI Model
+    <i class="fa-solid fa-caret-down ml-2"></i>
+  </button>
+
+  <div id="dropdownMenu" class="absolute z-50 mt-2 w-[200px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 hidden">
+    <div class="py-1 text-sm text-gray-700">
+      <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-model="z-ai/glm-4.5-air:free">GLM 4.5 Air</a>
+      <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-model="meta-llama/llama-3.2-3b-instruct:free">Llama 3.2 3B</a>
+      <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-model="mistralai/mistral-7b-instruct:free">Mistral 7B</a>
+      <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-model="qwen/qwen3-4b:free">Qwen3 4B</a>
+      <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-model="deepseek/deepseek-chat-v3.1:free">Deepseek V3.1</a>
+       <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-model="x-ai/grok-4-fast:free">Grok 4</a>
+    <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-model="agentica-org/deepcoder-14b-preview:free">Deepcoder 14b</a>
     </div>
+  </div>
+</div>
+      
+  <!-- Chat messages container --->
+  <div id="chat-display" class="flex-1 overflow-y-auto p-6 space-y-4">
+    <!--- Messages will appear here ---->
+    
+  </div>
+
+    <!--message input-->
+      <div class="p-4">
+            <div id="chat-box"class="relative">
+                <div class="flex gap-2">
+                    <input id = "chat-text"type="text" placeholder="Ask a follow-up.." id="chat-input" class="w-full p-4 rounded-lg border border-gray-900 text-black">
+                <button id="send-button" class="absolute right-2 top-2 p-2">
+                    <img src="https://cdn-icons-png.flaticon.com/512/10110/10110086.png" class="w-6 h-6">
+                </button>
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+
     <script type="module" src="/dist/client.js"></script>
+
+
+<!--mobile responsiveness-->
+
+<script>
+  
+  const openBtn = document.getElementById('open-sidebar')
+  const closeBtn = document.getElementById('close-sidebar')
+  const sidebar = document.getElementById('sidebar')
+  const overlay = document.getElementById('sidebar-overlay')
+
+
+  openBtn.addEventListener('click' , () => {
+    sidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
+
+  });
+
+  function closeSidebar() {
+    sidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+  };
+
+  closeBtn.addEventListener('click' , closeSidebar);
+  overlay.addEventListener('click',closeSidebar);
+
+
+</script>
+
+       
   </body>
 </html>

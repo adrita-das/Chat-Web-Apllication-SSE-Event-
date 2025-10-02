@@ -7,6 +7,8 @@
     "deploy": "partykit deploy"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.52.0",
+    "dotenv": "^17.2.0",
     "partysocket": "^1.0.2"
   },
   "devDependencies": {
