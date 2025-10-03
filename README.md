@@ -20,3 +20,6 @@ Refer to our docs for more information: https://github.com/partykit/partykit/blo
 
 ## For  API & SSE used  
 OpenRouter AI[https://openrouter.ai/docs/quickstart]
+
+## UI Design
+Brainwave[https://dribbble.com/shots/20928432-Brainwave-AI-UI-Kit]
