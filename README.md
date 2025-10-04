@@ -1,4 +1,4 @@
-## 🎈 pratcie-chatweb
+## 🎈 Partykit Chat web
 
 Welcome to the party, pal!
 
