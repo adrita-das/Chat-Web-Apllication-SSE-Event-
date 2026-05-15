@@ -6,6 +6,12 @@
   "serve": {
     "path": "public",
     "build": "src/client.js"
-    
+  
   }
+
+  // "vars": {
+  //       "SUPABASE_URL": "https://ebnsejvtulfkjlmurngb.supabase.co",
+  //       "SUPABASE_KEY" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVibnNlanZ0dWxma2psbXVybmdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTgwNjgsImV4cCI6MjA5MDk3NDA2OH0.N1Ydz6EIosMgwj1Q_aZB2GUB2G1mwwll_ubX_c_2dcg"
+  // }
 }
+

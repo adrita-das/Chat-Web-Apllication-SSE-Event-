@@ -7,8 +7,11 @@
     "deploy": "partykit deploy"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.52.0",
+    "@langchain/core": "^0.3.78",
+    "@langchain/langgraph": "^0.4.9",
+    "@supabase/supabase-js": "^2.101.1",
     "dotenv": "^17.2.0",
+    "langchain": "^0.3.35",
     "partysocket": "^1.0.2"
   },
   "devDependencies": {

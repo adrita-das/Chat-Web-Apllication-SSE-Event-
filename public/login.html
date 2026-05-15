@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Brainwave — Sign In</title>
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+
+    <!--tailwind-->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!--font awesome-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+
+  <body class="h-screen overflow-hidden bg-[#0F172A] flex items-center justify-center p-4">
+
+    <div class="w-full max-w-sm">
+
+      <!--logo-->
+      <div class="flex flex-col items-center mb-8">
+        <img
+          src="https://cdn.iconscout.com/icon/free/png-256/free-brain-icon-download-in-svg-png-gif-file-formats--neuroscience-brainstorming-mind-medical-neurology-pack-healthcare-icons-29869.png?f=webp&w=256"
+          class="w-12 h-12 mb-3"
+        />
+        <h1 class="text-white text-2xl font-bold">Brainwave</h1>
+        <p class="text-slate-500 text-sm mt-1">Sign in to your account</p>
+      </div>
+
+      <!--card-->
+      <div class="bg-[#1E293B] rounded-xl p-6 border border-slate-700/50">
+
+        <!--tabs-->
+        <div class="flex bg-[#0F172A] rounded-lg p-1 mb-6">
+          <button
+            id="tab-otp"
+            onclick="switchTab('otp')"
+            class="flex-1 text-sm py-2 rounded-md bg-blue-600 text-white font-medium transition-all duration-200">
+            <i class="fas fa-envelope mr-1.5 text-xs"></i>OTP Login
+          </button>
+          <button
+            id="tab-reset"
+            onclick="switchTab('reset')"
+            class="flex-1 text-sm py-2 rounded-md text-slate-400 font-medium transition-all duration-200 hover:text-white">
+            <i class="fas fa-key mr-1.5 text-xs"></i>Reset Password
+          </button>
+        </div>
+
+        <!--════ OTP FORM ════-->
+        <div id="form-otp">
+
+          <!--step 1 : email input-->
+          <div id="step-email">
+
+            <label class="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
+              Email address
+            </label>
+
+            <input
+              id="otp-email"
+              type="email"
+              placeholder="you@example.com"
+              class="w-full bg-[#0F172A] border border-slate-700 text-white text-sm px-4 py-3 rounded-lg outline-none placeholder-slate-600 focus:border-blue-500 transition-colors duration-200 mb-4"
+            />
+
+            <button
+              id="send-otp-btn"
+              onclick="sendOTP()"
+              class="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium py-3 rounded-lg transition-colors duration-200">
+              <i class="fas fa-paper-plane mr-2 text-xs"></i>Send OTP Code
+            </button>
+
+          </div>
+
+          <!--step 2 : 6-digit code input (hidden by default)-->
+          <div id="step-otp" class="hidden">
+
+            <div class="flex items-center gap-2 mb-4">
+              <button
+                onclick="goBackToEmail()"
+                class="text-slate-500 hover:text-white transition-colors text-xs">
+                <i class="fas fa-arrow-left mr-1"></i>Back
+              </button>
+              <p class="text-slate-400 text-xs">
+                Code sent to <span id="sent-to-email" class="text-white font-medium"></span>
+              </p>
+            </div>
+
+            <label class="block text-slate-400 text-xs font-medium mb-3 uppercase tracking-wider">
+              Enter 6-digit code
+            </label>
+
+            <!--6 individual boxes-->
+            <div class="flex gap-2 mb-4" id="otp-boxes">
+              <input type="text" maxlength="1" inputmode="numeric"
+                class="w-10 otp-box flex-1 bg-[#0F172A] border border-slate-700 text-white text-xl font-bold text-center py-3 rounded-lg outline-none focus:border-blue-500 transition-colors duration-200" />
+              <input type="w-10 text" maxlength="1" inputmode="numeric"
+                class="w-10 otp-box flex-1 bg-[#0F172A] border border-slate-700 text-white text-xl font-bold text-center py-3 rounded-lg outline-none focus:border-blue-500 transition-colors duration-200" />
+              <input type="text" maxlength="1" inputmode="numeric"
+                class="w-10 otp-box flex-1 bg-[#0F172A] border border-slate-700 text-white text-xl font-bold text-center py-3 rounded-lg outline-none focus:border-blue-500 transition-colors duration-200" />
+              <input type="text" maxlength="1" inputmode="numeric"
+                class="w-10 otp-box flex-1 bg-[#0F172A] border border-slate-700 text-white text-xl font-bold text-center py-3 rounded-lg outline-none focus:border-blue-500 transition-colors duration-200" />
+              <input type="text" maxlength="1" inputmode="numeric"
+                class="w-10 otp-box flex-1 bg-[#0F172A] border border-slate-700 text-white text-xl font-bold text-center py-3 rounded-lg outline-none focus:border-blue-500 transition-colors duration-200" />
+              <input type="text" maxlength="1" inputmode="numeric"
+                class="w-10 otp-box flex-1 bg-[#0F172A] border border-slate-700 text-white text-xl font-bold text-center py-3 rounded-lg outline-none focus:border-blue-500 transition-colors duration-200" />
+            </div>
+
+            <button
+              id="verify-otp-btn"
+              onclick="verifyOTP()"
+              class="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium py-3 rounded-lg transition-colors duration-200 mb-3">
+              <i class="fas fa-check mr-2 text-xs"></i>Verify & Sign In
+            </button>
+
+            <!--resend-->
+            <div class="text-center">
+              <span class="text-slate-500 text-xs">Didn't receive it? </span>
+              <button
+                id="resend-btn"
+                onclick="resendOTP()"
+                class="text-blue-400 hover:text-blue-300 text-xs transition-colors">
+                Resend code
+              </button>
+              <span id="resend-timer" class="text-slate-600 text-xs hidden"></span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!--════ RESET PASSWORD FORM ════-->
+        <div id="form-reset" class="hidden">
+
+          <label class="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">
+            Email address
+          </label>
+
+          <input
+            id="reset-email"
+            type="email"
+            placeholder="you@example.com"
+            class="w-full bg-[#0F172A] border border-slate-700 text-white text-sm px-4 py-3 rounded-lg outline-none placeholder-slate-600 focus:border-blue-500 transition-colors duration-200 mb-4"
+          />
+
+          <button
+            id="reset-btn"
+            onclick="sendResetEmail()"
+            class="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium py-3 rounded-lg transition-colors duration-200">
+            <i class="fas fa-envelope mr-2 text-xs"></i>Send Recovery Link
+          </button>
+
+          <p class="text-slate-600 text-xs text-center mt-4">
+            We'll send a password reset link to your inbox.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!--footer-->
+      <p class="text-center text-slate-600 text-xs mt-5">
+        By signing in you agree to our
+        <a href="#" class="text-blue-500 hover:text-blue-400 transition-colors">Terms</a>
+        and
+        <a href="#" class="text-blue-500 hover:text-blue-400 transition-colors">Privacy Policy</a>
+      </p>
+
+    </div>
+
+    <!--toast-->
+    <div
+      id="toast"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-16 opacity-0 pointer-events-none
+             bg-[#1E293B] border border-slate-700 text-white text-sm px-5 py-3 rounded-xl z-50
+             transition-all duration-300 flex items-center gap-2 whitespace-nowrap">
+      <span id="toast-icon"></span>
+      <span id="toast-msg"></span>
+    </div>
+
+
+    <script>
+
+      // ── Supabase init ──────────────────────────────────────────────────
+  
+      const { createClient } = supabase
+
+      const sb = createClient(
+        ' https://ebnsejvtulfkjlmurngb.supabase.co',   
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVibnNlanZ0dWxma2psbXVybmdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTgwNjgsImV4cCI6MjA5MDk3NDA2OH0.N1Ydz6EIosMgwj1Q_aZB2GUB2G1mwwll_ubX_c_2dcg' 
+      )
+
+      // ── State ──────────────────────────────────────────────────────────
+      let currentEmail    = ''
+      let resendCountdown = null
+
+      // ── Redirect if already logged in ─────────────────────────────────
+      // sb.auth.getSession().then(({ data: { session } }) => {
+      //   if (session) window.location.href = '/index.html'
+      // })
+
+      // ── Tab switching ──────────────────────────────────────────────────
+      function switchTab(tab) {
+        const isOTP    = tab === 'otp'
+        const active   = 'flex-1 text-sm py-2 rounded-md bg-blue-600 text-white font-medium transition-all duration-200'
+        const inactive = 'flex-1 text-sm py-2 rounded-md text-slate-400 font-medium transition-all duration-200 hover:text-white'
+
+        document.getElementById('form-otp').classList.toggle('hidden', !isOTP)
+        document.getElementById('form-reset').classList.toggle('hidden', isOTP)
+        document.getElementById('tab-otp').className   = isOTP  ? active : inactive
+        document.getElementById('tab-reset').className = !isOTP ? active : inactive
+      }
+
+      // ── Step 1 : Send OTP ──────────────────────────────────────────────
+      async function sendOTP() {
+        const email = document.getElementById('otp-email').value.trim()
+        if (!email) return showToast('Enter your email address', 'error')
+
+        const btn = document.getElementById('send-otp-btn')
+        setLoading(btn, true)
+
+        const { error } = await sb.auth.signInWithOtp({
+          email,
+          options: { shouldCreateUser: true }
+        })
+
+        setLoading(btn, false, '<i class="fas fa-paper-plane mr-2 text-xs"></i>Send OTP Code')
+
+        if (error) return showToast(error.message, 'error')
+
+        // move to step 2
+        currentEmail = email
+        document.getElementById('sent-to-email').textContent = email
+        document.getElementById('step-email').classList.add('hidden')
+        document.getElementById('step-otp').classList.remove('hidden')
+        document.querySelectorAll('.otp-box')[0].focus()
+
+        showToast('OTP sent — check your inbox', 'success')
+        startResendTimer(60)
+      }
+
+      // ── Step 2 : Verify OTP ────────────────────────────────────────────
+      async function verifyOTP() {
+        const boxes = document.querySelectorAll('.otp-box')
+        const token = Array.from(boxes).map(b => b.value).join('').trim()
+
+        if (token.length !== 6) return showToast('Enter the full 6-digit code', 'error')
+
+        const btn = document.getElementById('verify-otp-btn')
+        setLoading(btn, true)
+
+        const { error } = await sb.auth.verifyOtp({
+          email: currentEmail,
+          token,
+          type: 'email'
+        })
+
+        setLoading(btn, false, '<i class="fas fa-check mr-2 text-xs"></i>Verify & Sign In')
+
+        if (error) {
+          showToast(error.message, 'error')
+          boxes.forEach(b => b.value = '')
+          boxes[0].focus()
+          return
+        }
+
+        showToast('Signed in! Redirecting...', 'success')
+        setTimeout(() => window.location.href = '/index.html', 1000)
+      }
+
+      // ── Resend OTP ─────────────────────────────────────────────────────
+      async function resendOTP() {
+        const { error } = await sb.auth.signInWithOtp({
+          email: currentEmail,
+          options: { shouldCreateUser: false }
+        })
+        if (!error) {
+          document.querySelectorAll('.otp-box').forEach(b => b.value = '')
+          document.querySelectorAll('.otp-box')[0].focus()
+          showToast('New code sent', 'success')
+          startResendTimer(60)
+        } else {
+          showToast(error.message, 'error')
+        }
+      }
+
+      // ── Go back to email step ──────────────────────────────────────────
+      function goBackToEmail() {
+        document.getElementById('step-otp').classList.add('hidden')
+        document.getElementById('step-email').classList.remove('hidden')
+        document.querySelectorAll('.otp-box').forEach(b => b.value = '')
+        clearInterval(resendCountdown)
+      }
+
+      // ── Reset password ─────────────────────────────────────────────────
+      async function sendResetEmail() {
+        const email = document.getElementById('reset-email').value.trim()
+        if (!email) return showToast('Enter your email address', 'error')
+
+        const btn = document.getElementById('reset-btn')
+        setLoading(btn, true)
+
+        const { error } = await sb.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin + '/reset.html'
+        })
+
+        setLoading(btn, false, '<i class="fas fa-envelope mr-2 text-xs"></i>Send Recovery Link')
+
+        if (error) return showToast(error.message, 'error')
+
+        showToast('Recovery link sent — check your inbox', 'success')
+        document.getElementById('reset-email').value = ''
+      }
+
+      // ── OTP box : auto advance on type ─────────────────────────────────
+      document.getElementById('otp-boxes').addEventListener('input', e => {
+        if (!e.target.classList.contains('otp-box')) return
+        const boxes = Array.from(document.querySelectorAll('.otp-box'))
+        const idx   = boxes.indexOf(e.target)
+
+        // digits only
+        e.target.value = e.target.value.replace(/\D/g, '')
+
+        // move to next box
+        if (e.target.value && idx < boxes.length - 1) boxes[idx + 1].focus()
+
+        // auto verify when all 6 filled
+        if (boxes.every(b => b.value !== '')) verifyOTP()
+      })
+
+      // ── OTP box : backspace goes back ──────────────────────────────────
+      document.getElementById('otp-boxes').addEventListener('keydown', e => {
+        if (!e.target.classList.contains('otp-box')) return
+        const boxes = Array.from(document.querySelectorAll('.otp-box'))
+        const idx   = boxes.indexOf(e.target)
+        if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+          boxes[idx - 1].focus()
+        }
+      })
+
+      // ── OTP box : paste full code ──────────────────────────────────────
+      document.getElementById('otp-boxes').addEventListener('paste', e => {
+        e.preventDefault()
+        const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
+        const boxes  = document.querySelectorAll('.otp-box')
+        pasted.split('').forEach((char, i) => { if (boxes[i]) boxes[i].value = char })
+        if (pasted.length === 6) verifyOTP()
+      })
+
+      // ── Enter key support ──────────────────────────────────────────────
+      document.getElementById('otp-email').addEventListener('keydown', e => {
+        if (e.key === 'Enter') sendOTP()
+      })
+      document.getElementById('reset-email').addEventListener('keydown', e => {
+        if (e.key === 'Enter') sendResetEmail()
+      })
+
+      // ── Resend countdown timer ─────────────────────────────────────────
+      function startResendTimer(seconds) {
+        const resendBtn   = document.getElementById('resend-btn')
+        const resendTimer = document.getElementById('resend-timer')
+
+        resendBtn.classList.add('hidden')
+        resendTimer.classList.remove('hidden')
+
+        let count = seconds
+        resendTimer.textContent = `Resend in ${count}s`
+
+        clearInterval(resendCountdown)
+        resendCountdown = setInterval(() => {
+          count--
+          resendTimer.textContent = `Resend in ${count}s`
+          if (count <= 0) {
+            clearInterval(resendCountdown)
+            resendTimer.classList.add('hidden')
+            resendBtn.classList.remove('hidden')
+          }
+        }, 1000)
+      }
+
+      // ── setLoading helper ──────────────────────────────────────────────
+      function setLoading(btn, loading, label = '') {
+        btn.disabled  = loading
+        btn.innerHTML = loading
+          ? '<i class="fas fa-circle-notch fa-spin mr-2 text-xs"></i>Please wait...'
+          : label
+      }
+
+      // ── showToast helper ───────────────────────────────────────────────
+      let toastTimer
+      function showToast(msg, type) {
+        const toast = document.getElementById('toast')
+        const icon  = document.getElementById('toast-icon')
+        const msgEl = document.getElementById('toast-msg')
+
+        icon.innerHTML    = type === 'success'
+          ? '<i class="fas fa-circle-check text-green-400"></i>'
+          : '<i class="fas fa-circle-exclamation text-red-400"></i>'
+        msgEl.textContent = msg
+
+        toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-16')
+        toast.classList.add('opacity-100', 'translate-y-0')
+
+        clearTimeout(toastTimer)
+        toastTimer = setTimeout(() => {
+          toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-16')
+          toast.classList.remove('opacity-100', 'translate-y-0')
+        }, 3500)
+      }
+
+    </script>
+
+  </body>
+</html>

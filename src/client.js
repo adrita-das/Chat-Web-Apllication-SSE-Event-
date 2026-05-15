@@ -23,6 +23,59 @@ const chatDisplay = document.getElementById("chat-display");
 const chatText = document.getElementById("chat-text");
 const sendButton = document.getElementById("send-button");
 
+
+// ================= USER PROFILE =================
+
+// 🔴 replace later with Supabase
+const userEmail = "adrita@gmail.com";
+
+// color generator
+function getProfile(email) {
+  const colors = [
+    "bg-purple-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-yellow-500",
+    "bg-red-500",
+    "bg-pink-500",
+    "bg-indigo-500",
+    "bg-teal-500",
+  ];
+  return colors[email.charCodeAt(0) % colors.length];
+}
+
+// first letter
+function getInitial(email) {
+  return email ? email.charAt(0).toUpperCase() : "U";
+}
+
+// set sidebar profile
+function setUserProfile(email) {
+  const userInitial = document.getElementById("user-initial");
+  const userEmailText = document.getElementById("user-email");
+
+  if (!userInitial || !userEmailText) {
+    console.error("Profile elements not found!");
+    return;
+  }
+
+  const avatar = userInitial.parentElement;
+
+  userInitial.textContent = getInitial(email);
+
+  avatar.className =
+    "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0";
+
+  avatar.classList.add(getProfile(email));
+
+  userEmailText.textContent = email;
+}
+
+// run after DOM load
+window.addEventListener("DOMContentLoaded", () => {
+  setUserProfile(userEmail);
+});
+
 //handle dropdown menu start
 
 // Toggle dropdown visibility & hidden the menu
@@ -98,28 +151,46 @@ function selectModel(dataModel) {
 
 let msgStream = null;
 
-function addMessage(message, isUser=true) {
-  const msgDiv=document.createElement("div");
+function addMessage(message, isUser = true) {
+  const wrapper = document.createElement("div");
 
-  msgDiv.className = `flex ${
-   isUser ? "justify-end" : "justify-start"
+  wrapper.className = `flex ${
+    isUser ? "justify-end" : "justify-start"
+  } items-end gap-2`;
+
+  const bubble = document.createElement("div");
+  bubble.className = `max-w-[70%] px-4 py-2 rounded-lg text-sm whitespace-pre-wrap ${
+    isUser
+      ? "bg-blue-500 text-white rounded-br-none"
+      : "bg-gray-200 text-gray-900 rounded-bl-none"
   }`;
 
-  msgDiv.innerHTML = `
-  <div class ="max-w-[70%] px-4 py-2 rounded-lg text-sm whitespace-pre-wrap ${
-   isUser
-   ? "bg-blue-500 text-white rounded-br-none"
-   : "bg-gray-200 text-gray-900 rounded-bl-none"
-   }">
-   ${message } 
-   </div>
-   `;
+  bubble.textContent = message;
 
-   chatDisplay.appendChild(msgDiv);
-   chatDisplay.scrollTop= chatDisplay.scrollHeight;
+  const avatar = document.createElement("div");
+  avatar.className =
+    "w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold";
 
-   return msgDiv;
+  if (isUser) {
+    avatar.classList.add(getProfile(userEmail));
+    avatar.textContent = getInitial(userEmail);
+  } else {
+    avatar.classList.add("bg-gray-700");
+    avatar.textContent = "AI";
+  }
+
+  if (isUser) {
+    wrapper.appendChild(bubble);
+    wrapper.appendChild(avatar);
+  } else {
+    wrapper.appendChild(avatar);
+    wrapper.appendChild(bubble);
+  }
+
+  chatDisplay.appendChild(wrapper);
+  chatDisplay.scrollTop = chatDisplay.scrollHeight;
 }
+
 
 
 
@@ -158,8 +229,8 @@ function updateStreaming(content) {
 
 function endStreaming() {
   if(msgStream){
-    const cursor = msgStream.parentElement.querySelector('.cursor');
-    if (cursor) cursor.remove();
+    const indicator = msgStream.parentElement.querySelector('.indicator-start');
+    if (indicator) indicator.remove();
     msgStream = null;
   }
 }
@@ -188,7 +259,7 @@ socket.addEventListener("message", (event) => {
   let messageData;
   
   try {
-    // Try to parse as JSON first
+    
     messageData = JSON.parse(event.data);
   } catch {
     // If not JSON, treat as regular message
@@ -197,7 +268,7 @@ socket.addEventListener("message", (event) => {
   
   // Handle different message types
   if (messageData.type === "modelSelected") {
-    // Don't show this as a chat message, just log it
+  
     console.log("Model confirmed:", messageData.model);
     //addMessage(`Model switched to: ${messageData.model}`, false);
     return;
@@ -228,6 +299,3 @@ socket.addEventListener("message", (event) => {
 });
 
 //recive message  & reply  end 
-
-
-
