@@ -29,6 +29,7 @@
     />
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
   </head>
 
   <body class="h-screen overflow-hidden">
@@ -108,21 +109,14 @@
         <!--chat list label-->
         <p class="text-slate-500 text-xs uppercase tracking-wider px-5 mb-2 flex-shrink-0">Recent Chats</p>
 
-        <!--
-          FIX 3: conversation-list is flex-1 + overflow-y-auto
-          It fills remaining space and scrolls independently
-          client.js populates this dynamically from Supabase
-        -->
+     
         <div id="conversation-list" class="flex-1 overflow-y-auto px-3 space-y-1">
           <p id="conv-loading" class="text-slate-500 text-xs text-center py-4">Loading chats...</p>
         </div>
 
-        <!--
-          FIX 4: user badge — flex-shrink-0 keeps it pinned at the bottom always
-          FIX 5: removed the broken <button><a href="login.html"> — auth handled in client.js
-        -->
+   
         <div class="p-3 border-t border-gray-700 flex items-center gap-3 flex-shrink-0">
-          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+          <div id="user-avatar-bg"class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
             <span id="user-initial" class="text-white text-xs font-bold">?</span>
           </div>
           <p id="user-email" class="text-slate-400 text-xs truncate flex-1">Loading...</p>
@@ -170,11 +164,7 @@
         <!--chat messages container-->
         <div id="chat-display" class="flex-1 overflow-y-auto p-6 space-y-4">
 
-          <!--
-            FIX 6: welcome screen added — shown when no conversation is active
-            client.js removes this when the first message is sent
-          -->
-
+         
         </div>
 
         <!--message input-->
@@ -221,28 +211,6 @@
 
       closeBtn.addEventListener('click', closeSidebar);
       overlay.addEventListener('click', closeSidebar);
-
-
-//get profile
-      export function getProfile(email) {
-  const colors = [
-    "bg-purple-500",
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-yellow-500",
-    "bg-red-500",
-    "bg-pink-500",
-    "bg-indigo-500",
-    "bg-teal-500",
-  ];
-
-  const index = email.charCodeAt(0) % colors.length;
-  return colors[index];
-}
-
-export function getInitial(email) {
-  return email ? email.charAt(0).toUpperCase() : "U";
-}
 
     </script>
 
